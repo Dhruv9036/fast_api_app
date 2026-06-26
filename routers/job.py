@@ -1,10 +1,29 @@
 from fastapi import APIRouter
-router = APIRouter(prefix="/job",tags={"job"})
+from schemas.company import CompanyCreate
+from schemas.job import JobCreate, JobUpdate   
+
+router = APIRouter(prefix="/job", tags=["job"])
+jobs=[]
+
+
+@router.post("/")
+def create_job(jobs: JobCreate):
+    jobs.append(jobs)
+    return jobs      
 
 @router.get("/")
-def read_job():
-    return {"job": "job root"}
+def get_all_job():
+    return jobs
 
-@router.get("/(job_id)")
-def read_job_by_id(job_id:int):
-    return {"job_id": job_id}
+@router.get("/{job_id}")
+def get_job(job_id: int):
+    return jobs[job_id]
+
+
+# @router.get("/")
+# def read_job():
+#     return {"Job": "Job Root"}
+
+# @router.get("/{job_id}")
+# def read_job_id(job_id: int):
+#     return {"Job ID": job_id}
