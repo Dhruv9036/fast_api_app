@@ -51,6 +51,7 @@ def get_company(company_id: int, db: Session = Depends(get_db)):
         )
 
     return db_company
+
 @router.put("/{company_id}", response_model=CompanyResponse)
 def update_company(company_id: int, company_data: CompanyUpdate, db: Session = Depends(get_db)):
     db_company = db.query(company.Company).filter(

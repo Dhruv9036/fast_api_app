@@ -6,6 +6,7 @@ class CompanyBase(BaseModel):
     name: str
     email: str
     phone: str
+    location: str
     
 class CompanyCreate(CompanyBase):
     pass
