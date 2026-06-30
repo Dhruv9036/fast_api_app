@@ -1,10 +1,10 @@
-import Welcome from "./components/Welcome";
+// import Welcome from "./components/Welcome";
 import NavBar from "./components/NavBar";
 import CompanyCard from "./components/CompanyCard";
 import JobCard from "./components/JobCard";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
-import { getCompanies } from "./Services/CompanyService";
+import { getCompanies } from "./services/companyservice";
 import type { Company } from "./types/company";
 
 function App() {
@@ -39,10 +39,10 @@ function App() {
   return (
     <div>
       <NavBar />
-      <Welcome />
-      <CompanyCard key={companies.id} companies={companies} />
+      {/* <Welcome /> */}
+      <CompanyCard companies={companies} />
       <JobCard />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

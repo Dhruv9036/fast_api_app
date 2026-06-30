@@ -18,7 +18,8 @@ def create_company(company_data: CompanyCreate, db: Session = Depends(get_db)):
     db_company = company.Company(
         name=company_data.name,
         email=company_data.email,
-        phone=company_data.phone
+        phone=company_data.phone,
+        location=company_data.location
     )
 
     print("Before commit")

@@ -3,18 +3,19 @@ from pydantic import BaseModel
 from .job import JobResponse
 
 class CompanyBase(BaseModel):
+    name: Optional[str]   = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    location: Optional[str] = None
+    
+class CompanyCreate(CompanyBase):
     name: str
     email: str
     phone: str
     location: str
-    
-class CompanyCreate(CompanyBase):
-    pass
 
 class CompanyUpdate(CompanyBase):
-    name: Optional[str]   = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
+    pass 
 
 class CompanyResponse(CompanyBase):
     id: int
