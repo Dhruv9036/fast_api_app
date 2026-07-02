@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from routers import job
-from routers import company
-from models import job as job_model, company as company_model
+from routers import company,auth
+
+from models import job as job_model, company as company_model, users as user_model
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.add_middleware(
@@ -11,6 +12,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(auth.router)
 app.include_router(company.router)
 app.include_router(job.router)
 @app.get("/")
