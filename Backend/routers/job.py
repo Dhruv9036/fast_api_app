@@ -3,7 +3,7 @@ from models import company, job
 from sqlalchemy.orm import Session
 from database import get_db
 from schemas.job import JobCreate, JobUpdate, JobResponse   
-
+from utils.oauth2 import get_current_user, role_required
 router = APIRouter(prefix="/job", tags=["job"])
 jobs=[]
 
@@ -15,7 +15,7 @@ jobs=[]
     status_code=status.HTTP_201_CREATED,
     response_model=JobResponse
 )
-def create_job(job_data: JobCreate, db: Session = Depends(get_db)):
+def create_job(job_data: JobCreate, db: Session = Depends(get_db),current_user=Depends(role_required(["admin","hr"]))):
     db_job = job.Job(
         title=job_data.title,
         description=job_data.description,
@@ -30,11 +30,11 @@ def create_job(job_data: JobCreate, db: Session = Depends(get_db)):
     return db_job
 
 @router.get("/", status_code=status.HTTP_200_OK, response_model=list[JobResponse])
-def get_all_jobs(db: Session = Depends(get_db)):
+def get_all_jobs(db: Session = Depends(get_db),current_user=Depends(get_current_user)):
     return db.query(job.Job).all()
 
 @router.get("/{job_id}", response_model=JobResponse)
-def get_job(job_id: int, db: Session = Depends(get_db)):
+def get_job(job_id: int, db: Session = Depends(get_db),current_user=Depends(get_current_user)):
     db_job = db.query(job.Job).filter(job.Job.id == job_id).first()
 
     if db_job is None:
@@ -47,7 +47,7 @@ def get_job(job_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{job_id}", response_model=JobResponse)
-def update_job(job_id: int, job_data: JobUpdate, db: Session = Depends(get_db)):    
+def update_job(job_id: int, job_data: JobUpdate, db: Session = Depends(get_db),current_user=Depends(role_required(["admin","hr"]))):
     db_job = db.query(job.Job).filter(job.Job.id == job_id).first()
 
     if db_job is None:
@@ -65,7 +65,7 @@ def update_job(job_id: int, job_data: JobUpdate, db: Session = Depends(get_db)):
     return db_job       
 
 @router.delete("/{job_id}")
-def delete_job(job_id: int, db: Session = Depends(get_db)):
+def delete_job(job_id: int, db: Session = Depends(get_db),current_user=Depends(role_required(["admin","hr"]))):
     db_job = db.query(job.Job).filter(job.Job.id == job_id).first()
 
     if db_job is None:
@@ -78,12 +78,3 @@ def delete_job(job_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Job deleted successfully."}
-
-
-# @router.get("/")
-# def read_job():
-#     return {"Job": "Job Root"}
-
-# @router.get("/{job_id}")
-# def read_job_id(job_id: int):
-#     return {"Job ID": job_id}
