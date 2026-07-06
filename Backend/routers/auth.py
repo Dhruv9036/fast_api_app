@@ -22,7 +22,6 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     return db_user
 
-from fastapi.security import OAuth2PasswordRequestForm
 
 @router.post("/login", response_model=Token)
 def login(
