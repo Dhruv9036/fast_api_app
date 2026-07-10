@@ -6,7 +6,7 @@ from sqlalchemy.future import select
 from database import get_db
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from models import User
+from models.users import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
