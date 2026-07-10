@@ -1,2 +1,3 @@
 *.pvc
 env
+node_modules
